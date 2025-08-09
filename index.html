@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30% Subtraction Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .calculation {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 2px dashed #dee2e6;
+        }
+
+        .formula {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .result {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-top: 10px;
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .examples {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+        }
+
+        .examples h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .example {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .example:last-child {
+            border-bottom: none;
+        }
+
+        .example-input {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .example-result {
+            color: #28a745;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>30% Calculator</h1>
+        <p class="subtitle">Subtract 30% from any number</p>
+        
+        <div class="input-group">
+            <label for="numberInput">Enter a number:</label>
+            <input type="number" id="numberInput" placeholder="100" step="any">
+        </div>
+
+        <div class="calculation">
+            <div class="formula">Formula: Number - (Number × 0.30)</div>
+            <div class="result" id="result">Enter a number to see result</div>
+        </div>
+
+        <div class="examples">
+            <h3>Quick Examples:</h3>
+            <div class="example">
+                <span class="example-input">100</span>
+                <span class="example-result">70</span>
+            </div>
+            <div class="example">
+                <span class="example-input">200</span>
+                <span class="example-result">140</span>
+            </div>
+            <div class="example">
+                <span class="example-input">50</span>
+                <span class="example-result">35</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const numberInput = document.getElementById('numberInput');
+        const resultElement = document.getElementById('result');
+
+        function calculateResult() {
+            const inputValue = parseFloat(numberInput.value);
+            
+            if (isNaN(inputValue)) {
+                resultElement.textContent = 'Enter a number to see result';
+                resultElement.style.color = '#666';
+                return;
+            }
+
+            const thirtyPercent = inputValue * 0.30;
+            const result = inputValue - thirtyPercent;
+            
+            // Format the result to remove unnecessary decimal places
+            const formattedResult = result % 1 === 0 ? result.toString() : result.toFixed(2);
+            
+            resultElement.textContent = formattedResult;
+            resultElement.style.color = '#28a745';
+            
+            // Add animation class
+            resultElement.style.animation = 'none';
+            setTimeout(() => {
+                resultElement.style.animation = 'pulse 0.5s ease-in-out';
+            }, 10);
+        }
+
+        // Calculate on input change
+        numberInput.addEventListener('input', calculateResult);
+        
+        // Calculate on page load if there's a value
+        numberInput.addEventListener('load', calculateResult);
+        
+        // Focus on the input when page loads
+        window.addEventListener('load', () => {
+            numberInput.focus();
+        });
+    </script>
+</body>
+</html>
