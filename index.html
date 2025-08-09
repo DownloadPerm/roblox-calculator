@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>30% Subtraction Calculator</title>
+    <title>Roblox Calculator</title>
     <style>
         * {
             margin: 0;
@@ -197,10 +197,10 @@
             const thirtyPercent = inputValue * 0.30;
             const result = inputValue - thirtyPercent;
             
-            // Format the result to remove unnecessary decimal places
-            const formattedResult = result % 1 === 0 ? result.toString() : result.toFixed(2);
+            // Always round to the nearest whole number
+            const roundedResult = Math.round(result);
             
-            resultElement.textContent = formattedResult;
+            resultElement.textContent = roundedResult;
             resultElement.style.color = '#28a745';
             
             // Add animation class
